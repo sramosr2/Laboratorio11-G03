@@ -125,9 +125,8 @@ def set_station(analyzer, station):
         station = str(station)
         vertex = G.get_vertex(analyzer['connections'], station)
         if vertex is not None:
-            analyzer['components'] = G.connected_components(
-                analyzer['connections'])
-            analyzer['paths'] = G.dijkstra(analyzer['connections'], vertex)
+            # TODO: Llame a la ejecucion de Dijkstra desde la estacion
+            # base para calcular los caminos de costo minimo
             return True
         else:
             return False
