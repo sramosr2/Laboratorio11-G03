@@ -49,14 +49,16 @@ def execute_queue_tests():
 def execute_stack_tests():
     """Ejecuta las pruebas de la pila (stack)"""
     execute_pytest_test("test_stack")
-    
+
+
 def execute_sorting_tests():
     tests_names = []
     tests_names.append("test_iterative_sort_array_list")
     tests_names.append("test_iterative_sort_single_linked_list")
-    
+
     for test_name in tests_names:
         execute_pytest_test(test_name)
+
 
 def execute_map_tests(input_option="7"):
     """Ejecuta pruebas relacionadas con mapas"""
@@ -68,22 +70,28 @@ def execute_map_tests(input_option="7"):
     for test_name in tests_names:
         execute_pytest_test(test_name)
 
+
 def execute_bst_tests():
     """Ejecuta las pruebas de BST"""
     execute_pytest_test("test_binary_search_tree")
-    
+
+
 def execute_rbt_tests():
     """Ejecuta las pruebas de BST"""
     execute_pytest_test("test_red_black_tree")
+
+
 def execute_graph_tests():
     """Ejecuta las pruebas de grafos"""
-    execute_pytest_test("test_adj_list_graph")
+    execute_pytest_test("test_digraph")
+
 
 if __name__ == "__main__":
     """Menú principal de pruebas"""
     runned = False
     print_test_options()
-    input_option = str(input("Ingrese el número de la opción que desea ejecutar: \n"))
+    input_option = str(
+        input("Ingrese el número de la opción que desea ejecutar: \n"))
 
     if input_option == "1":
         execute_all_tests()
@@ -100,19 +108,19 @@ if __name__ == "__main__":
     if input_option == "4":
         execute_stack_tests()
         runned = True
-        
+
     if input_option.startswith("5"):
         execute_sorting_tests()
         runned = True
-        
+
     if input_option.startswith("7"):
         execute_map_tests()
         runned = True
-    
+
     if input_option.startswith("8"):
         execute_bst_tests()
         runned = True
-        
+
     if input_option.startswith("9"):
         execute_rbt_tests()
         runned = True
