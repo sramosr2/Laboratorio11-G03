@@ -1,25 +1,39 @@
-def new_edge(v_a, v_b, weight=0):
+def new_edge(key_v, weight=0):
     """
-    Crea un nuevo arco entrelos vertices ``v_a`` y ``v_b`` con un peso ``weight``
+    Crea un nuevo arco hacia el vertices con llave ``key_v`` con un peso ``weight``
 
     Se crea un arco con los siguientes atributos:
 
-    - **vertex_a**: Vertice A del arco
-    - **vertex_b**: Vertice B del arco
-    - **weight**: Peso del arco
+    - :attr:`to`: llave del vertice destino
+    - :attr:`weight`: Peso del arco
 
-    :param v_a: Vertice A del arco
-    :type v_a: any
-    :param v_b: Vertice B del arco
-    :type v_b: any
+    :param key_v: Llave del vertice destino del arco
+    :type key_v: any
     :param weight: Peso del arco
     :type weight: double
 
-    :returns: Arco creado
-    :rtype: edge
+    :returns: Arco recien creado
+    :rtype: :ref:`edge<graph-edge>`
+
+    .. include:: code-examples/Graph/edge/new_edge.rst
     """
-    edge = {"vertex_a": v_a, "vertex_b": v_b, "weight": weight}
+    edge = {"to": key_v, "weight": weight}
     return edge
+
+
+def to(edge):
+    """
+    Retorna la llave de vertice destino del arco ``edge``
+
+    :param edge: Arco del cual se quiere obtener el vertice destino
+    :type edge: :ref:`edge<graph-edge>`
+
+    :returns: Llave del vertice destino del arco
+    :rtype: any
+
+    .. include:: code-examples/Graph/edge/to.rst
+    """
+    return edge["to"]
 
 
 def weight(edge):
@@ -27,81 +41,29 @@ def weight(edge):
     Retorna el peso del arco ``edge``
 
     :param edge: Arco del cual se quiere obtener el peso
-    :type edge: edge
+    :type edge: :ref:`edge<graph-edge>`
 
     :returns: Peso del arco
     :rtype: double
+
+    .. include:: code-examples/Graph/edge/weight.rst
     """
     return edge["weight"]
 
 
-def either(edge):
+def set_weight(edge, new_weight):
     """
-    Retorna el vertice A del arco ``edge``
-
-    :param edge: Arco del cual se quiere obtener el vertice A
-    :type edge: edge
-
-    :returns: Vertice A del arco
-    :rtype: any
-    """
-    return edge["vertex_a"]
-
-
-def other(edge, veither):
-    """
-    Retorna el vertice del arco ``edge`` que no es igual a ``veither``
-
-    :param edge: Arco del cual se quiere obtener el vertice B
-    :type edge: edge
-    :param veither: Vertice A del arco
-    :type veither: any
-
-    :returns: Vertice B del arco
-    :rtype: any
-    """
-    if veither == edge["vertex_a"]:
-        return edge["vertex_b"]
-    elif veither == edge["vertex_b"]:
-        return edge["vertex_a"]
-
-
-def set_weight(edge, weight):
-    """
-    Cambia el peso del arco ``edge`` por el valor ``weight``
+    Actualiza el peso del arco ``edge`` por el valor ``new_weight``
 
     :param edge: Arco al cual se le quiere cambiar el peso
-    :type edge: edge
+    :type edge: :ref:`edge<graph-edge>`
     :param weight: Nuevo peso del arco
     :type weight: double
+
+    :returns: Arco con el nuevo peso
+    :rtype: :ref:`edge<graph-edge>`
+
+    .. include:: code-examples/Graph/edge/set_weight.rst
     """
-    edge["weight"] = weight
-
-
-def compare_edges(edge1, edge2):
-    """
-    Funcion utilizada en lista de edges para comparar dos edges
-    Retorna 0 si los arcos son iguales, 1 si edge1 > edge2, -1 edge1 < edge2
-
-    :param edge1: Arco 1
-    :type edge1: edge
-    :param edge2: Arco 2
-    :type edge2: edge
-
-    :returns: 0 si los arcos son iguales, 1 si edge1 > edge2, -1 edge1 < edge2
-    :rtype: int
-    """
-    e1v = either(edge1)
-    e2v = either(edge2)
-
-    if e1v == e2v:
-        if other(edge1, e1v) == other(edge2, e2v):
-            return 0
-        elif other(edge1, e1v) > other(edge2, e2v):
-            return 1
-        else:
-            return -1
-    elif e1v > e2v:
-        return 1
-    else:
-        return -1
+    edge["weight"] = new_weight
+    return edge

@@ -24,6 +24,14 @@
  *
  """
 
+# ___________________________________________________
+#  Importaciones
+# ___________________________________________________
+
+from DataStructures.List import single_linked_list as lt
+from DataStructures.Map import map_linear_probing as m
+from DataStructures.Graph import digraph as G
+
 import csv
 import time
 import os
@@ -31,13 +39,6 @@ import os
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
 
 
-# ___________________________________________________
-#  Importaciones
-# ___________________________________________________
-
-from DataStructures.Graph import adj_list_graph as gr
-from DataStructures.Map import map_linear_probing as m
-from DataStructures.List import single_linked_list as lt
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 Existen algunas operaciones en las que se necesita invocar
@@ -59,6 +60,7 @@ def init():
     analyzer = new_analyzer()
     return analyzer
 
+
 def new_analyzer():
     """ Inicializa el analizador
 
@@ -76,9 +78,10 @@ def new_analyzer():
             'paths': None
         }
 
-        analyzer['stops'] = m.new_map(num_elements=14000,load_factor=0.7,prime=109345121) 
+        analyzer['stops'] = m.new_map(
+            num_elements=14000, load_factor=0.7, prime=109345121)
 
-        analyzer['connections'] = gr.new_graph(size=14000,directed=False)
+        analyzer['connections'] = G.new_graph(size=14000)
         return analyzer
     except Exception as exp:
         return exp
@@ -110,8 +113,9 @@ def load_services(analyzer, servicesfile):
             if sameservice and samedirection and not samebusStop:
                 add_stop_connection(analyzer, lastservice, service)
         lastservice = service
-  
+
     return analyzer
+
 
 def set_station(analyzer, station):
     """
@@ -119,10 +123,11 @@ def set_station(analyzer, station):
     """
     try:
         station = str(station)
-        vertex = gr.get_vertex(analyzer['connections'], station)
+        vertex = G.get_vertex(analyzer['connections'], station)
         if vertex is not None:
-            analyzer['components'] = gr.connected_components(analyzer['connections'])
-            analyzer['paths'] = gr.dijkstra(analyzer['connections'], vertex)
+            analyzer['components'] = G.connected_components(
+                analyzer['connections'])
+            analyzer['paths'] = G.dijkstra(analyzer['connections'], vertex)
             return True
         else:
             return False
@@ -137,28 +142,24 @@ def total_stops(analyzer):
     """
     Total de paradas de autobus
     """
-    return gr.num_vertices(analyzer['connections'])
-     
+    return G.order(analyzer['connections'])
+
 
 def total_connections(analyzer):
     """
     Total de enlaces entre las paradas
     """
-    return gr.num_edges(analyzer['connections'])
-     
+    return G.size(analyzer['connections'])
 
 
-
-
-    
-
-#Funciones para la medición de tiempos
+# Funciones para la medición de tiempos
 
 def get_time():
     """
     devuelve el instante tiempo de procesamiento en milisegundos
     """
     return float(time.perf_counter()*1000)
+
 
 def delta_time(end, start):
     """
@@ -197,15 +198,14 @@ def add_stop_connection(analyzer, lastservice, service):
     except Exception as exp:
         return exp
 
+
 def add_stop(analyzer, stopid):
     """
     Adiciona una estación como un vertice del grafo
     """
- 
-      
-    gr.insert_vertex(analyzer['connections'], stopid,stopid)
-    return analyzer
 
+    G.insert_vertex(analyzer['connections'], stopid, stopid)
+    return analyzer
 
 
 def add_route_stop(analyzer, service):
@@ -229,10 +229,8 @@ def add_connection(analyzer, origin, destination, distance):
     """
     Adiciona un arco entre dos estaciones
     """
-   
-    gr.add_edge(analyzer['connections'], origin, destination, distance)
- 
 
+    G.add_edge(analyzer['connections'], origin, destination, distance)
 
 
 # ==============================
@@ -258,5 +256,3 @@ def format_vertex(service):
     name = service['BusStopCode'] + '-'
     name = name + service['ServiceNo']
     return name
-
-
